@@ -1,0 +1,56 @@
+
+https://www.learnrxjs.io/operators/filtering/debouncetime.html
+
+const input = document.getElementById('example');
+
+//for every keyup, map to current input value
+const example = Rx.Observable
+  .fromEvent(input, 'keyup')
+  .map(i => i.currentTarget.value);
+
+//wait .5s between keyups to emit current value
+//throw away all other values
+const debouncedInput = example.debounceTime(500);
+
+//log values
+const subscribe = debouncedInput.subscribe(val => {
+  console.log(`Debounced Input: ${val}`);
+});
+
+
+
+....................................................................
+
+import {Observable} from "rxjs";
+import {load, loadWithFetch} from "./loader";
+
+let search = document.getElementById("search");
+
+
+let keyups = Observable.fromEvent(search, "keyup")
+                       .map(e => e.target.value)
+                       .filter(text => text.length >=3)
+                       .debounceTime(4000);
+
+
+keyups.subscribe(function(data){
+  
+  console.log(data)
+
+})
+
+const interval = Observable.interval(1000);
+//raise the debounce time by 200ms each second
+const debouncedInterval = interval.debounce(function (val) {
+    
+  var c = Observable.timer(val * 200);
+   //console.log(typeof c)
+  return c;
+});
+/*
+  After 5 seconds, debounce time will be greater than interval time,
+  all future values will be thrown away
+  output: 0...1...2...3...4......(debounce time over 1s, no values emitted)
+*/
+const subscribe = debouncedInterval.
+                            subscribe(val => console.log(`Example Two: ${val}`));
