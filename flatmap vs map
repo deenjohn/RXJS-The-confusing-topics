@@ -1,0 +1,39 @@
+
+https://stackoverflow.com/questions/33471526/why-do-we-need-to-use-flatmap
+
+['a','b','c'].flatMap(function(e) {
+    return [e, e+ 'x', e+ 'y',  e+ 'z'  ];
+});
+//['a', 'ax', 'ay', 'az', 'b', 'bx', 'by', 'bz', 'c', 'cx', 'cy', 'cz']
+
+
+['a','b','c'].map(function(e) {
+    return [e, e+ 'x', e+ 'y',  e+ 'z'  ];
+});
+//[Array[4], Array[4], Array[4]]
+
+
+.........................................................................................................................
+
+An Observable is an object that emits a stream of events: Next, Error and Completed.
+
+When your function returns an Observable, it is not returning a stream, but an 
+instance of Observable. The flatMap operator simply maps that instance to a stream.
+
+That is the behaviour of flatMap when compared to map: Execute the given function and flatten 
+the resulting object into a stream.
+
+.........................................................................
+
+map : Applies a given `project` function to each value emitted by the source
+ * Observable, and emits the resulting values as an Observable.
+ 
+[1,2,3].map(x => [x, x * 10])
+// [[1, 10], [2, 20], [3, 30]]
+So 3 Observable
+so each next function returns 1 observable [1, 10]
+flatMap
+
+[1,2,3].flatMap(x => [x, x * 10])
+// [1, 10, 2, 20, 3, 30]
+1 Observable 
