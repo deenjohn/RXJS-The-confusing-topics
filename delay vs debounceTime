@@ -9,8 +9,11 @@ var input = document.getElementById("type");
 var heading = document.getElementById("enter")
 
 
-Due to debounce time only the last value , which is "deen john" is logged.other intermittent values like , 
+Que : Which is better operator to be used for sending a request to server once user finished typing.
+
+Ans : Due to debounce time only the last value , which is "deen john" is logged.other intermittent values like , 
 "d" , "de" , "dee" , "deen" etc are discardeed except the last intermittent value "deen john"
+So if you want to request once user has finished tyoing then  "debouneTime" is a better option than delay
 
 var inputClickStream = Observable.fromEvent(input, 'input')
                                   .map(ev => ev.target.value)
