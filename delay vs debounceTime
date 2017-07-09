@@ -1,0 +1,31 @@
+
+
+
+import {Observable} from "rxjs";
+import {load, loadWithFetch} from "./loader";
+import $ = require('jquery');
+
+var input = document.getElementById("type");
+var heading = document.getElementById("enter")
+
+
+Due to debounce time only the last value , which is "deen john" is logged.other intermittent values like , 
+"d" , "de" , "dee" , "deen" etc are discardeed except the last intermittent value "deen john"
+
+var inputClickStream = Observable.fromEvent(input, 'input')
+                                  .map(ev => ev.target.value)
+                                   .debounceTime(1000);
+                                  
+                                   //.delay(1000);
+
+inputClickStream.subscribe(
+    
+    function(x ){
+        console.log(x)
+        heading.innerText= x;
+    }
+
+)
+
+
+Observable.of([1,2,3,4]).delay(5000).subscribe(x =>console.log(x))
