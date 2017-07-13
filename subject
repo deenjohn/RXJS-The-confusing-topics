@@ -1,0 +1,65 @@
+
+
+import {Observable} from "rxjs";
+import {load, loadWithFetch} from "./loader";
+import $ = require('jquery');
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+
+var subject = new BehaviorSubject(42)
+
+
+ //var obs = Observable.interval(1000).take(5);
+
+ var observerA = {
+       next :function(x){
+           console.log("A : ",x)
+        } ,
+       error:function (err) {
+        console.log('Error: ' + err);
+    } ,
+    
+    complete:function () {
+        console.log('A Completed');
+    }
+       
+ }
+
+ subject.subscribe(observerA)
+
+ var observerB = {
+       next :function(x){
+           console.log("B : ",x)
+        } ,
+       error:function (err) {
+        console.log('Error: ' + err);
+    } ,
+    
+    complete:function () {
+        console.log('B Completed');
+    }
+       
+ }
+
+
+ setTimeout(function(){
+
+ subject.subscribe(observerB)
+
+},2000)
+
+
+subject.next(1)
+subject.next(2)
+
+
+setTimeout(function(){
+
+ subject.next(3)
+
+},1000)
+
+
+
+
+
+
