@@ -1,65 +1,23 @@
-
+https://github.com/Reactive-Extensions/RxJS/blob/master/doc/howdoi/eventemitter.md
 
 import {Observable} from "rxjs";
 import {load, loadWithFetch} from "./loader";
 import $ = require('jquery');
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
-var subject = new BehaviorSubject(42)
-
-
- //var obs = Observable.interval(1000).take(5);
-
- var observerA = {
-       next :function(x){
-           console.log("A : ",x)
-        } ,
-       error:function (err) {
-        console.log('Error: ' + err);
-    } ,
-    
-    complete:function () {
-        console.log('A Completed');
-    }
-       
- }
-
- subject.subscribe(observerA)
-
- var observerB = {
-       next :function(x){
-           console.log("B : ",x)
-        } ,
-       error:function (err) {
-        console.log('Error: ' + err);
-    } ,
-    
-    complete:function () {
-        console.log('B Completed');
-    }
-       
- }
-
-
- setTimeout(function(){
-
- subject.subscribe(observerB)
-
-},2000)
-
-
-subject.next(1)
-subject.next(2)
-
-
-setTimeout(function(){
-
- subject.next(3)
-
-},1000)
+// To "share" the observable tick$ with two observers,
+// observer1 and observer2, we can pipe all notifications
+// through a Subject, like so
+const tick$ = Observable.interval(1000);
+const subject = new Subject();
+subject.subscribe(observer1);
+subject.subscribe(observer2);
+tick$.subscribe(subject);
 
 
 
-
+The example above is “multicasting” the observable tick$ to two observers: observer1 and observer2. 
+This is actually what almost all multicasting operators in RxJS do internally. 
+For example publish, publishReplay, multicast, share, etc. Really, this is the primary use case for Subjects in RxJS.
 
 
